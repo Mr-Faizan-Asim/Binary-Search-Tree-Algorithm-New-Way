@@ -1,4 +1,5 @@
 #include<iostream>
+#include<queue>
 using namespace std;
 
 template <typename T>
@@ -74,7 +75,7 @@ public:
 		cout << root->val << ", ";
 		Preorder(root->BstLeft);
 		Preorder(root->BstRight);
-		cout << endl;
+		
 	}
 	void Preorder()
 	{
@@ -94,21 +95,39 @@ public:
 	{
 		cout <<"Start is " << root->val<< endl;
 	}
+	void levelOrderTraversal()
+	{
+		if (root == nullptr)
+		{
+			return;
+		}
+		queue<Node<T>*> tempQue;
+		tempQue.push(root);
+		while (!tempQue.empty())
+		{
+			Node<T>* current = tempQue.front();
+			cout << current->val <<',';
+			if (current->BstLeft != nullptr)
+				tempQue.push(current->BstLeft);
+			if (current->BstRight != nullptr)
+				tempQue.push(current->BstRight);
+			tempQue.pop();
+		}
+	}
 };
 
 
 int main()
 {
-	BST<int>* bst = new BST<int>(5);
-	bst->insert(12);
+	BST<int>* bst = new BST<int>(4);
+	bst->insert(2);
+	bst->insert(7);
 	bst->insert(1);
 	bst->insert(3);
-	bst->insert(9);
-	bst->insert(21);
-	bst->insert(19);
-	bst->insert(25);
+	bst->insert(5);
 	bst->End();
 	bst->Start();
 	cout << bst->Search(323)<<endl;
-	
+	bst->Preorder();
+	bst->levelOrderTraversal();
 }
