@@ -1,5 +1,6 @@
 #include<iostream>
 #include<queue>
+#include<vector>
 using namespace std;
 
 template <typename T>
@@ -115,8 +116,43 @@ public:
 		}
 	}
 };
-
-
+vector<int> taker(BST<int>* temp)
+{
+	Node<int>* root = temp->root;
+	vector<int> tempVec;
+	if (root == nullptr)
+	{
+		return tempVec;
+	}
+	queue<Node<int>*> tempQue;
+	tempQue.push(root);
+	while (!tempQue.empty())
+	{
+		Node<int>* current = tempQue.front();
+		tempVec.push_back(current->val);
+		if (current->BstLeft != nullptr)
+			tempQue.push(current->BstLeft);
+		if (current->BstRight != nullptr)
+			tempQue.push(current->BstRight);
+		tempQue.pop();
+	}
+	return tempVec;
+}
+bool LRP(BST<int>* one,BST<int>* two) {
+	vector<int> te1 = taker(one);
+	vector<int> te2 = taker(two);
+	if (te1.size() != te2.size())
+		return false;
+	else
+		for (int i = 0; i < te1.size(); i++)
+		{
+			if (te1[i] != te2[i])
+			{
+				return false;
+			}
+		}
+	return true;
+}
 int main()
 {
 	BST<int>* bst = new BST<int>(4);
@@ -130,4 +166,5 @@ int main()
 	cout << bst->Search(323)<<endl;
 	bst->Preorder();
 	bst->levelOrderTraversal();
+	cout << LRP(bst, bst);
 }
